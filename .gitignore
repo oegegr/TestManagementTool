@@ -1,0 +1,7 @@
+/static/*
+!/static/.gitignore
+/frontend/node_modules
+.idea
+*.iml
+
+
