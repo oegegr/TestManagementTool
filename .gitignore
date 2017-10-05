@@ -3,5 +3,7 @@
 /frontend/node_modules
 .idea
 *.iml
+backend/data.sqlite
+*__pycache__
 
 
