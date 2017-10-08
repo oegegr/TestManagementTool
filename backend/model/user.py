@@ -1,12 +1,5 @@
-import os
-from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
-from backend import app
-
-basedir = os.path.abspath(os.path.dirname(__file__))
-db_path = os.path.join(basedir, '../data.sqlite')
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
-db = SQLAlchemy(app)
+from backend import db
 
 
 class User(db.Model):
