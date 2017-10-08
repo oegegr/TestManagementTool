@@ -1,9 +1,10 @@
-from flask import render_template, g, jsonify
+from flask import render_template, g, jsonify, Blueprint
 from flask_httpauth import HTTPBasicAuth
 from backend.model.user import User
 from backend import app
 
 
+api = Blueprint('api', __name__)
 auth = HTTPBasicAuth()
 auth_token = HTTPBasicAuth()
 
@@ -52,7 +53,7 @@ def unauthorized():
     return response
 
 
-@app.route('/')
+@api.route('/')
 def hello_world():
     return render_template('index.html')
 
@@ -65,8 +66,14 @@ def verify_password(username, password):
     return g.user.verify_password(password)
 
 
-@app.before_request
-@auth.login_required
+@auth_token.verify_password
+def verify_auth_token(token, unused):
+    g.user = User.verify_auth_token(token)
+    return g.user is not None
+
+
+@api.before_request
+@auth_token.login_required
 def before_request():
     pass
 
@@ -76,3 +83,5 @@ def before_request():
 def get_auth_token():
     return jsonify({'token': g.user.generate_auth_token()})
 
+
+app.register_blueprint(api)

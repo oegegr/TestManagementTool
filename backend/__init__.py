@@ -6,6 +6,7 @@ app = Flask(__name__, static_folder='../static', template_folder='../static')
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 db_path = os.path.join(basedir, 'data.sqlite')
+app.config['SECRET_KEY'] = 'top-secret!'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///' + db_path
 db = SQLAlchemy(app)
 
