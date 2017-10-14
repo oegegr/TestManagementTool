@@ -5,7 +5,7 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    entry: __dirname + '/app.jsx',
+    entry: __dirname + '/app.js',
     output: {
         path: __dirname + '/../static/',
         filename: 'bundle.js',
@@ -27,7 +27,12 @@ module.exports = {
                 },
                 test: /\.jsx?$/,
                 exclude: /(node_modules|bower_components)/
-            }
+                },
+                {
+                    loader: 'style-loader!css-loader',
+                    test: /\.css$/
+                },
+            { test: /\.(eot|woff|woff2|svg|ttf)([\?]?.*)$/, loader: "file-loader" },
         ]
     },
     plugins: [
@@ -35,6 +40,15 @@ module.exports = {
         new HtmlWebpackPlugin({
             template: __dirname + '/index.html',
             filename: 'index.html',
-        })
+        }),
+        new webpack.ProvidePlugin({
+        $: 'jquery',
+        jQuery: 'jquery',
+        'window.jQuery': 'jquery',
+        Popper: ['popper.js', 'default'],
+        // In case you imported plugins individually, you must also require them here:
+        Util: "exports-loader?Util!bootstrap/js/dist/util",
+        Dropdown: "exports-loader?Dropdown!bootstrap/js/dist/dropdown",
+      })
     ]
 }

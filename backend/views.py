@@ -52,9 +52,9 @@ def unauthorized():
     response.status_code = 401
     return response
 
-
-@api.route('/')
-def hello_world():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
     return render_template('index.html')
 
 
